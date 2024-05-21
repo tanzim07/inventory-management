@@ -1,7 +1,12 @@
-FROM node:20
+FROM node:20-alpine
+
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+
 COPY . .
-EXPOSE 3000
-CMD ["node", "app.js"]
+
+RUN yarn install
+
+EXPOSE 5000
+
+RUN ["chmod", "+x", "./entrypoint.sh"]
+ENTRYPOINT ["sh", "./entrypoint.sh"]

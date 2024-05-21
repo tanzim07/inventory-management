@@ -3,8 +3,9 @@
 ## Setup
 
 1. Clone the repository
-2. Install dependencies: `npm install`
-3. Start the application: `docker-compose up`
+2. overwrite the file .env.example to .env
+2. Install dependencies: `npm install / yarn install`
+3. Start the application: `docker compose up`
 
 ## API Endpoints
 

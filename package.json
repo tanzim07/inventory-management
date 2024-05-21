@@ -7,9 +7,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:generate": "npx prisma generate",
+    "prisma:studio": "npx prisma studio"
+
   },
-  "devDependencies": {
+  "devDependencies": {    
     "@faker-js/faker": "^8.4.1",
     "nodemon": "^3.1.0"
   },
