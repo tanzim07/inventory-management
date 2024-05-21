@@ -21,18 +21,16 @@ import dotenv from 'dotenv';
 import express from 'express';
 import handleError from './app/middlewares/handleError.js';
 import routes from './app/routes/index.js';
-import config from './config/index.js';
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(cookieParser());
-
-//parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const { PORT } = config;
+
+// app.use(limiter); //TODO  uncomment this line to enable rate limiter
 
 app.use('/api/v1', routes);
 

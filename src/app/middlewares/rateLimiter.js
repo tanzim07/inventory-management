@@ -1,28 +1,29 @@
 /*
- * File           : index.js
+ * File           : rateLimiter.js
  * Project        : inventory-management
- * Created Date   : Tu 21 May 2024 04:23:24
+ * Created Date   : We 22 May 2024 02:25:50
  * Description    : <<description>>
  *
  * -----------------------------------------------------
  * Author         : Tanzim Ahmed
  * Email          : tanzimahmed077@gmail.com
  * -----------------------------------------------------
- * Last Modified  : Tue May 21 2024
+ * Last Modified  : Wed May 22 2024
  * Modified By    : Tanzim Ahmed
  * -----------------------------------------------------
  * Copyright (c) 2024 Tanzim Ahmed
  * -----------------------------------------------------
  */
+import rateLimit from 'express-rate-limit';
+import config from '../../config/index.js';
 
-import dotenv from 'dotenv';
-dotenv.config();
+const { MAX_REQUEST_LIMIT } = config;
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: parseInt(MAX_REQUEST_LIMIT),
+  handler: (req, res) => {
+    res.status(429).send({ error: 'Too many requests' });
+  },
+});
 
-const config = {
-  PORT: process.env.PORT || 5001,
-  DATABASE_URL: process.env.DATABASE_URL,
-  JWT_SECRET: process.env.JWT_SECRET,
-  MAX_REQUEST_LIMIT: process.env.MAX_REQUEST_LIMIT,
-};
-
-export default config;
+export default limiter;
