@@ -25,11 +25,25 @@ const comparePassword = async (password, hash) => {
 };
 
 const generateToken = async (data) => {
-  return await jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '1h' });
+  const token = jwt.sign(data, process.env.JWT_SECRET, {
+    algorithm: 'HS256',
+    expiresIn: '1h',
+  });
+  const expiresIn = new Date(Date.now() + 60 * 60 * 1000);
+  return { token, expiresIn };
 };
 
+// Exclude keys from user
+function exclude(user, keys) {
+  return Object.fromEntries(Object.entries(user).filter(([key]) => !keys.includes(key)));
+}
+function excludeAll(users, keys) {
+  return users.map((user) => exclude(user, keys));
+}
 export const userHelper = {
   hashPassword,
   comparePassword,
   generateToken,
+  exclude,
+  excludeAll,
 };

@@ -20,18 +20,47 @@ import { userHelper } from '../user/user.helper.js';
 const prisma = new PrismaClient();
 
 const loginService = async (data) => {
-  const user = await prisma.user.findUnique({
-    where: { email: data.email },
+  const result = await prisma.$transaction(async (prisma) => {
+    const user = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
+    const isMatched = await userHelper.comparePassword(data.password, user.password);
+    if (!isMatched) {
+      throw new Error('Invalid login credentials');
+    } else {
+      const data = { email: user.email, id: user.id };
+      const { token, expiresIn } = await userHelper.generateToken(data);
+      const { password, ...userWithoutPassword } = user;
+      const auth = await prisma.auth.findFirst({
+        where: {
+          userId: parseInt(user.id),
+        },
+      });
+      if (auth) {
+        await prisma.auth.update({
+          where: {
+            id: auth.id,
+          },
+          data: {
+            token: token,
+            expiresAt: expiresIn,
+            createdAt: new Date(),
+          },
+        });
+      } else {
+        await prisma.auth.create({
+          data: {
+            token: token,
+            expiresAt: expiresIn,
+            userId: user.id,
+          },
+        });
+      }
+
+      return { user: userWithoutPassword, token };
+    }
   });
-  const isMatched = await userHelper.comparePassword(data.password, user.password);
-  if (!isMatched) {
-    throw new Error('Invalid login credentials');
-  } else {
-    const data = { email: user.email, id: user.id };
-    const token = await userHelper.generateToken(data);
-    const { password, ...userWithoutPassword } = user;
-    return { user: userWithoutPassword, token };
-  }
+  return result;
 };
 
 const logOutService = async () => {

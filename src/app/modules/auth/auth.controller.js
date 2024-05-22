@@ -21,6 +21,7 @@ import { authService } from './auth.service.js';
 
 const login = handleTryCatch(async (req, res, next) => {
   const { user, token } = await authService.loginService(req.body);
+  res.set('Authorization', `Bearer ${token}`);
   handleResponse({
     res,
     statusCode: 200,

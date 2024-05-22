@@ -45,16 +45,6 @@ model Auth {
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   token     String
-  expires   DateTime
+  expiresAt DateTime
   createdAt DateTime @default(now())
 }
-
-// model Payment {
-//   id        Int      @id @default(autoincrement())
-//   orderId   Int
-//   order     Order    @relation(fields: [orderId], references: [id])
-//   amount    Float
-//   currency  String
-//   status    String
-//   createdAt DateTime @default(now())
-// }

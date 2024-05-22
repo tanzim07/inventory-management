@@ -28,8 +28,9 @@ const createDataService = async (data) => {
 };
 
 const getAllDataService = async () => {
-  const users = await prisma.user.findMany();
-  return { users };
+  const users = await prisma.user.findMany({});
+  const usersWithoutPassword = userHelper.excludeAll(users, ['password']);
+  return { users: usersWithoutPassword };
 };
 const updateDataByIdService = async (id, data) => {
   const user = await prisma.user.update({ where: { id: id }, data });
@@ -43,7 +44,8 @@ const getDataByIdService = async (id) => {
   const user = await prisma.user.findUnique({
     where: { id: id },
   });
-  return { user };
+  const usersWithoutPassword = userHelper.exclude(user, ['password']);
+  return { user: usersWithoutPassword };
 };
 
 export const userService = {

@@ -15,31 +15,35 @@
  * -----------------------------------------------------
  */
 import express from 'express';
-import { UsersRoutes } from '../modules/user/user.route.js';
+import handleAuthToken from '../middlewares/handleAuthToken.js';
+import { AuthRoutes } from '../modules/auth/auth.route.js';
 import { InventoryRoutes } from '../modules/inventory/inventory.route.js';
 import { OrderRoutes } from '../modules/order/order.route.js';
-import { AuthRoutes } from '../modules/auth/auth.route.js';
-
+import { UsersRoutes } from '../modules/user/user.route.js';
 const router = express.Router();
 
 const moduleRoutes = [
   {
     path: '/user',
     route: UsersRoutes,
+    middleWare: [handleAuthToken],
   },
   {
     path: '/product',
     route: InventoryRoutes,
+    middleWare: [handleAuthToken],
   },
   {
     path: '/order',
     route: OrderRoutes,
+    middleWare: [handleAuthToken],
   },
   {
     path: '/auth',
     route: AuthRoutes,
+    middleWare: [],
   },
 ];
 
-moduleRoutes.forEach((route) => router.use(route.path, route.route));
+moduleRoutes.forEach((route) => router.use(route.path, route.middleWare, route.route));
 export default router;
