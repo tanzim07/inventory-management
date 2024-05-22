@@ -16,7 +16,6 @@
  */
 
 const handleError = (error, res) => {
-  console.log('🚀 ~ handleError ~ error:', error.message);
   const { name } = error;
   return res.status(500).send({
     status: 'failed',

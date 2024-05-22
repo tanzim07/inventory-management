@@ -20,6 +20,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import handleError from './app/middlewares/handleError.js';
+import limiter from './app/middlewares/rateLimiter.js';
 import routes from './app/routes/index.js';
 
 dotenv.config();
@@ -30,7 +31,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use(limiter); //TODO  uncomment this line to enable rate limiter
+app.use(limiter);
 
 app.use('/api/v1', routes);
 

@@ -47,7 +47,7 @@ const getDataByIdService = async (id) => {
   return { product };
 };
 
-export const inventoryService = {
+export const productService = {
   createDataService,
   getAllDataService,
   updateDataByIdService,

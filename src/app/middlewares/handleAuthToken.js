@@ -17,13 +17,14 @@
 
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import config from '../../config/index.js';
 
 const prisma = new PrismaClient();
 
 const handleAuthToken = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, config.JWT_SECRET);
     const auth = await prisma.auth.findFirst({
       where: {
         token,

@@ -17,8 +17,8 @@
 import express from 'express';
 import handleAuthToken from '../middlewares/handleAuthToken.js';
 import { AuthRoutes } from '../modules/auth/auth.route.js';
-import { InventoryRoutes } from '../modules/inventory/inventory.route.js';
 import { OrderRoutes } from '../modules/order/order.route.js';
+import { ProductRoutes } from '../modules/product/product.route.js';
 import { UsersRoutes } from '../modules/user/user.route.js';
 const router = express.Router();
 
@@ -30,7 +30,7 @@ const moduleRoutes = [
   },
   {
     path: '/product',
-    route: InventoryRoutes,
+    route: ProductRoutes,
     middleWare: [handleAuthToken],
   },
   {

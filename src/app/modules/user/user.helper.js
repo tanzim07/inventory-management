@@ -16,6 +16,7 @@
  */
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import config from '../../../config/index.js';
 const hashPassword = async (password) => {
   return await bcrypt.hash(password, 10);
 };
@@ -25,7 +26,7 @@ const comparePassword = async (password, hash) => {
 };
 
 const generateToken = async (data) => {
-  const token = jwt.sign(data, process.env.JWT_SECRET, {
+  const token = jwt.sign(data, config.JWT_SECRET, {
     algorithm: 'HS256',
     expiresIn: '1h',
   });

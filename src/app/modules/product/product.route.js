@@ -16,17 +16,17 @@
  */
 
 import express from 'express';
-import { inventoryController } from './inventory.controller.js';
+import { productController } from './product.controller.js';
 const router = express.Router();
 
-router.get('/get-all', inventoryController.getAllDataFromDB);
+router.get('/get-all', productController.getAllDataFromDB);
 
-router.post('/create', inventoryController.createDataToDB);
+router.post('/create', productController.createDataToDB);
 
-router.patch('/update/:id', inventoryController.updateDataByIdInDB);
+router.patch('/update/:id', productController.updateDataByIdInDB);
 
-router.delete('/delete/:id', inventoryController.deleteDataByIdFromDB);
+router.delete('/delete/:id', productController.deleteDataByIdFromDB);
 
-router.get('/get-single/:id', inventoryController.getDataByIdFromDB);
+router.get('/get-single/:id', productController.getDataByIdFromDB);
 
-export const InventoryRoutes = router;
+export const ProductRoutes = router;
