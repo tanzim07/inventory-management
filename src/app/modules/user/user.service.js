@@ -16,9 +16,13 @@
  */
 
 import { PrismaClient } from '@prisma/client';
+import { userHelper } from './user.helper.js';
 const prisma = new PrismaClient();
 
 const createDataService = async (data) => {
+  const { email, password } = data;
+  const hashPassword = await userHelper.hashPassword(password);
+  data.password = hashPassword;
   const user = await prisma.user.create({ data });
   return { user };
 };

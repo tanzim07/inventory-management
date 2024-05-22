@@ -48,3 +48,13 @@ model Auth {
   expires   DateTime
   createdAt DateTime @default(now())
 }
+
+// model Payment {
+//   id        Int      @id @default(autoincrement())
+//   orderId   Int
+//   order     Order    @relation(fields: [orderId], references: [id])
+//   amount    Float
+//   currency  String
+//   status    String
+//   createdAt DateTime @default(now())
+// }

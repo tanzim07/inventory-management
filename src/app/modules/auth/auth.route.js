@@ -14,3 +14,15 @@
  * Copyright (c) 2024 Tanzim Ahmed
  * -----------------------------------------------------
  */
+
+import express from 'express';
+import { authController } from './auth.controller.js';
+const router = express.Router();
+
+router.post('/log-in', authController.login);
+
+router.post('/log-out', authController.logout);
+
+router.patch('/log-out-all/:id', authController.logoutAll);
+
+export const AuthRoutes = router;
