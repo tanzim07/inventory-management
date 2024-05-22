@@ -31,9 +31,14 @@ const updateDataByIdService = async (id, data) => {
   const product = await prisma.product.update({ where: { id: id }, data });
   return { product };
 };
+// delete product and all orders related to the product
 const deleteDataByIdService = async (id) => {
-  const product = await prisma.product.delete({ where: { id: id } });
-  return { product };
+  const result = await prisma.$transaction(async (prisma) => {
+    await prisma.order.deleteMany({ where: { productId: id } });
+    const product = await prisma.product.delete({ where: { id: id } });
+    return { product };
+  });
+  return result;
 };
 const getDataByIdService = async (id) => {
   const product = await prisma.product.findUnique({

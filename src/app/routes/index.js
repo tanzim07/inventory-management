@@ -26,7 +26,7 @@ const moduleRoutes = [
   {
     path: '/user',
     route: UsersRoutes,
-    middleWare: [handleAuthToken],
+    middleWare: [],
   },
   {
     path: '/product',

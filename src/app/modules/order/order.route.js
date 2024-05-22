@@ -29,9 +29,6 @@ router.delete('/delete/:id', orderController.deleteDataByIdFromDB);
 
 router.get('/get-single/:id', orderController.getDataByIdFromDB);
 
-router.get('/get-single/:id', orderController.getDataByIdFromDB);
-
-//
-router.get('/get-my-order/', () => 'get my order');
+router.get('/get-my-order', orderController.getMyOrderFromDB);
 
 export const OrderRoutes = router;

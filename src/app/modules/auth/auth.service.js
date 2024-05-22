@@ -63,9 +63,23 @@ const loginService = async (data) => {
   return result;
 };
 
-const logOutService = async () => {
-  const products = await prisma.product.findMany();
-  return { products };
+const logOutService = async (req) => {
+  const { id } = req.user;
+  const auth = await prisma.auth.findFirst({
+    where: {
+      userId: parseInt(id),
+    },
+  });
+  if (auth) {
+    await prisma.auth.delete({
+      where: {
+        id: auth.id,
+      },
+    });
+  } else {
+    throw new Error('User not found');
+  }
+  return { user: req.user };
 };
 const logOutAllService = async (id, data) => {
   const product = await prisma.product.update({ where: { id: id }, data });

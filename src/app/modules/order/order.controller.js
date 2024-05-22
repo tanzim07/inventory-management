@@ -21,11 +21,11 @@ import { orderService } from './order.service.js';
 
 const getAllDataFromDB = handleTryCatch(async (req, res, next) => {
   const { orders } = await orderService.getAllDataService();
-  handleResponse({ res, statusCode: 200, status: 'success', message: 'Products fetched successfully', data: orders });
+  handleResponse({ res, statusCode: 200, status: 'success', message: 'Orders fetched successfully', data: orders });
 });
 
 const createDataToDB = handleTryCatch(async (req, res, next) => {
-  const { order } = await orderService.createDataService(req.body);
+  const { order } = await orderService.createDataService(req);
   handleResponse({ res, statusCode: 201, status: 'success', message: 'order created successfully', data: order });
 });
 
@@ -44,10 +44,16 @@ const getDataByIdFromDB = handleTryCatch(async (req, res, next) => {
   handleResponse({ res, statusCode: 200, status: 'success', message: 'order fetched successfully', data: order });
 });
 
+const getMyOrderFromDB = handleTryCatch(async (req, res, next) => {
+  const { order } = await orderService.getMyOrderFromDBService(req);
+  handleResponse({ res, statusCode: 200, status: 'success', message: 'My Order fetched successfully', data: order });
+});
+
 export const orderController = {
   getAllDataFromDB,
   createDataToDB,
   updateDataByIdInDB,
   deleteDataByIdFromDB,
   getDataByIdFromDB,
+  getMyOrderFromDB,
 };

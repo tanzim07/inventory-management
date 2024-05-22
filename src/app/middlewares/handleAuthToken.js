@@ -29,14 +29,24 @@ const handleAuthToken = async (req, res, next) => {
         token,
       },
     });
+
+    if (!auth) {
+      throw new Error('Invalid token');
+    }
+    const user = await prisma.user.findUnique({
+      where: {
+        id: decoded.id,
+      },
+    });
+    if (!user) {
+      throw new Error('Invalid user');
+    }
     const timeNow = new Date();
     if (auth.expiresAt < timeNow) {
       throw new Error('Token expired');
     }
-    if (!auth) {
-      throw new Error();
-    }
     req.auth = auth;
+    req.user = user;
     next();
   } catch (error) {
     res.status(401).send({ error: error.message || 'Please authenticate' });

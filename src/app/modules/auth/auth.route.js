@@ -16,13 +16,13 @@
  */
 
 import express from 'express';
+import handleAuthToken from '../../middlewares/handleAuthToken.js';
 import { authController } from './auth.controller.js';
+
 const router = express.Router();
 
 router.post('/log-in', authController.login);
 
-router.post('/log-out', authController.logout);
-
-router.patch('/log-out-all/:id', authController.logoutAll);
+router.get('/log-out', handleAuthToken, authController.logout);
 
 export const AuthRoutes = router;

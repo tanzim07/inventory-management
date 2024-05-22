@@ -32,23 +32,11 @@ const login = handleTryCatch(async (req, res, next) => {
 });
 
 const logout = handleTryCatch(async (req, res, next) => {
-  const { user } = await authService.logOutService(req.body);
-  handleResponse({ res, statusCode: 201, status: 'success', message: 'Log out successfully', data: user });
-});
-
-const logoutAll = handleTryCatch(async (req, res, next) => {
-  const { user } = await authService.logOutAllService(parseInt(req.params.id), req.body);
-  handleResponse({
-    res,
-    statusCode: 200,
-    status: 'success',
-    message: 'Log out from all devices successfully',
-    data: user,
-  });
+  await authService.logOutService(req);
+  handleResponse({ res, statusCode: 201, status: 'success', message: 'Log out successfully' });
 });
 
 export const authController = {
   login,
   logout,
-  logoutAll,
 };
